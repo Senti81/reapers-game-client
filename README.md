@@ -1,4 +1,4 @@
-# login-template
+# reapers-game-client
 
 ## Project setup
 ```
