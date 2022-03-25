@@ -17,44 +17,56 @@
         elevation="12"
         outlined
         >
-        <div v-if="show">
-          <ScoreProgress
-            v-for="(item, index) in value"
-            :key="index"
-            :item="item"
-            :index="index"
-            />
-        </div>
-        <NoProgress v-else/>
-      </v-card>
-      <v-card
-        v-show="this.$store.getters.isAdmin"
-        class="mt-4 mx-auto pa-6"
-        max-width="800"
-        >
-        <v-list-item v-for="score in scores" :key="score.id">
-          {{score.username}}: {{score.points}}
+        <v-list-item two-line>
+          <v-list-item-content>
+            <v-list-item-title class="text-overline mb-1">
+              Dashboard
+            </v-list-item-title>
+            <v-list-item-subtitle>Übersicht</v-list-item-subtitle>
+          </v-list-item-content>
+          <v-icon large color="blue darken-5">mdi-view-dashboard</v-icon>
         </v-list-item>
+        
+        <v-simple-table>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">
+                  Platz
+                </th>
+                <th class="text-left">
+                  Name
+                </th>
+                <th class="text-right">
+                  Punkte
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(score, index) in scores"
+                :key="index"
+              >
+                <td>{{ index + 1 }}.</td>
+                <td>{{ score.username}}</td>
+                <!-- <td class="text-right">{{ score.points }}</td> -->
+                <td class="text-right">?</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+
       </v-card>
     </div>
   </v-container>
 </template>
 
 <script>
-import ScoreProgress from '@/components/ScoreProgress.vue'
-import NoProgress from '@/components/NoProgress.vue'
 import axios from 'axios'
-import { format } from 'date-fns'
 
 export default {
-  components: {
-    ScoreProgress,
-    NoProgress
-  },
   data() {
     return {
-      show: false,
-      value: [],
       scores: []
     }
   },
@@ -62,25 +74,10 @@ export default {
     async showResults() {
       const result = await axios.get(process.env.VUE_APP_BASEURL + '/scores/')
       this.scores = result.data
-      let pointsArray = []
-      result.data.forEach(element => {
-        pointsArray.push(element.points)
-      });
-      this.value = pointsArray
-      this.show = true
     },
   },
   mounted() {
-    // this.$store.dispatch('isInProgress')
-    let currentHour
-    if (this.$store.getters.getMock.hour) {
-      currentHour = this.$store.getters.getMock.hour
-    } else {
-      currentHour = format(new Date(), 'H')
-    }
-    if (currentHour >= this.$store.state.END) {
-      this.showResults()
-    }
+    this.showResults()
   }
 }
 </script>

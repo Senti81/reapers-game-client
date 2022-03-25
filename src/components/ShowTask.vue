@@ -64,7 +64,6 @@ export default {
     return {
       day: format(new Date(), 'i'),
       task: '',
-      // image: '',
       solution: '',
       show: true
     }
@@ -112,7 +111,6 @@ export default {
       // Show daily quest
       {
         const result = await axios.get(process.env.VUE_APP_BASEURL + `/tasks/${this.day}`, this.$store.getters.getHeader)
-        // this.image = result.data.img
         this.task = result.data
         this.show = false
       }
