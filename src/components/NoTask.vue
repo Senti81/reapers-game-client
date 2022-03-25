@@ -1,12 +1,19 @@
 <template>
   <v-card
-    class="grey lighten-3 pa-2 ma-2"
+    class="mx-auto pa-3"
+    max-width="540"
     elevation="12"
-    >
-    <v-card-title class="text-md-h4">
-      <v-icon left>mdi-information</v-icon>
-    </v-card-title>
-    <v-card-text class="mx-2">Aktuell ist keine Aufgabe verfügbar.</v-card-text>
+    outlined
+  >
+    <v-list-item two-line>
+      <v-list-item-content>
+        <v-list-item-title class="text-overline mb-1">
+          Tagesaufgabe
+        </v-list-item-title>
+        <v-list-item-subtitle>Keine Aufgabe verfügbar</v-list-item-subtitle>
+      </v-list-item-content>
+      <v-icon large color="blue darken-5">mdi-format-list-checks</v-icon>
+    </v-list-item>
   </v-card>
 </template>
 

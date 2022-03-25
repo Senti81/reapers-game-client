@@ -2,20 +2,20 @@
   <v-container>
     <v-card
       v-if="!this.$store.getters.isStarted"
-      class="grey lighten-3 pa-2 ma-2"
+      class="mx-auto pa-3"
+      max-width="540"
       elevation="12"
-      max-width="800"
+      outlined
       >
-      <v-icon class="ma-2">mdi-information</v-icon>
-      <v-spacer></v-spacer>
-      <v-card-title class="text-md-h4">Erklär-Text.</v-card-title>
+      <v-card-title class="text-md-h4">Erklär-Text</v-card-title>
       <v-card-subtitle class="mt-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae, totam repellendus! Voluptates, necessitatibus voluptas. Accusamus, ullam molestiae! Illo quas optio beatae facilis amet inventore minima libero autem repellat minus debitis quasi rem tenetur ab dolore, reprehenderit molestiae totam similique. Dolorum reprehenderit vel labore aut corporis repudiandae aspernatur iste sapiente impedit.</v-card-subtitle>
     </v-card>
     <div v-else>
       <v-card
-        class="grey lighten-3 pa-2 ma-2"
+        class="mx-auto pa-3"
+        max-width="540"
         elevation="12"
-        max-width="800"
+        outlined
         >
         <div v-if="show">
           <ScoreProgress

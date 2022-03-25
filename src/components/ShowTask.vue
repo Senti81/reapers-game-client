@@ -1,30 +1,40 @@
 <template>
+<v-container>
+  <v-skeleton-loader
+    class="mx-auto pa-2"
+    max-width="540"
+    elevation="12"
+    type="image, article, actions"
+    v-show="show"
+  >
+  </v-skeleton-loader>
   <v-card
-    class="mx-auto"
-    max-width="620"
+    class="mx-auto pa-2"
+    max-width="540"
     elevation="12"
     outlined
+    v-show="!show"
   >
-    <v-list-item three-line>
+    <v-list-item three-line >
       <v-list-item-content>
-        <div class="text-overline mb-4 text-center">
-          OVERLINE
-        </div>
-        <v-list-item-title class="text-h5 mb-1">
-          {{task}}
+        <v-list-item-title class="text-h5">
+          {{task.title}}
         </v-list-item-title>
-        <v-img            
+        <v-img          
           aspect-ratio="1.0"
-          :src="image"
+          :src="task.img"
           max-height="300"
           contain                    
-        >
-        </v-img>
-        <div
-          class="mt-4 text-body-1 text-justify"
-          >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit saepe rem neque temporibus eos maxime, iure nulla, odio aperiam animi dolores quidem ullam voluptatem sit minima sed laboriosam delectus consequuntur perspiciatis et recusandae, totam est aliquam! Pariatur distinctio, sint eum illum, ad culpa itaque aspernatur doloribus tempora odit aliquam! Quidem?</div>
+        ></v-img>
+        <div class="text-body-1 my-2 text-justify">
+          {{task.description}}
+        </div>
+        <v-list-item-subtitle class="mt-4 text-body-2">
+          {{task.hintDescription}}
+        </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
+
     <v-card-actions>
       <v-text-field
         class="mx-4"
@@ -42,6 +52,7 @@
       </v-btn>
     </v-card-actions>
   </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -53,8 +64,9 @@ export default {
     return {
       day: format(new Date(), 'i'),
       task: '',
-      image: '',
-      solution: ''
+      // image: '',
+      solution: '',
+      show: true
     }
   },
   computed: {
@@ -100,8 +112,9 @@ export default {
       // Show daily quest
       {
         const result = await axios.get(process.env.VUE_APP_BASEURL + `/tasks/${this.day}`, this.$store.getters.getHeader)
-        this.image = result.data.img
-        this.task = result.data.description
+        // this.image = result.data.img
+        this.task = result.data
+        this.show = false
       }
     },
   },
