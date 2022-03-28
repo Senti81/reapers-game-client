@@ -32,9 +32,6 @@
             <thead>
               <tr>
                 <th class="text-left">
-                  Platz
-                </th>
-                <th class="text-left">
                   Name
                 </th>
                 <th class="text-right">
@@ -46,11 +43,11 @@
               <tr
                 v-for="(score, index) in scores"
                 :key="index"
-              >
-                <td>{{ index + 1 }}.</td>
-                <td>{{ score.username}}</td>
-                <!-- <td class="text-right">{{ score.points }}</td> -->
-                <td class="text-right">?</td>
+              >               
+                <td>                  
+                  {{ score.displayName }}
+                </td>
+                <td class="text-right">{{ score.points }}</td>
               </tr>
             </tbody>
           </template>
