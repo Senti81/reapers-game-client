@@ -1,16 +1,5 @@
 <template>
   <v-container>
-    <v-card
-      v-if="!this.$store.getters.isStarted"
-      class="mx-auto pa-3"
-      max-width="540"
-      elevation="12"
-      outlined
-      >
-      <v-card-title class="text-md-h4">Erklär-Text</v-card-title>
-      <v-card-subtitle class="mt-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae, totam repellendus! Voluptates, necessitatibus voluptas. Accusamus, ullam molestiae! Illo quas optio beatae facilis amet inventore minima libero autem repellat minus debitis quasi rem tenetur ab dolore, reprehenderit molestiae totam similique. Dolorum reprehenderit vel labore aut corporis repudiandae aspernatur iste sapiente impedit.</v-card-subtitle>
-    </v-card>
-    <div v-else>
       <v-card
         class="mx-auto pa-3"
         max-width="540"
@@ -27,15 +16,23 @@
           <v-icon large color="blue darken-5">mdi-view-dashboard</v-icon>
         </v-list-item>
         
-        <v-simple-table>
+        <div v-if="scores.length === 0" class="ma-4 text-center">
+          <span class="text-body-1">
+            Es liegen noch keine Ergebnisse vor
+          </span>
+        </div>
+        <v-simple-table v-else>
           <template v-slot:default>
             <thead>
               <tr>
                 <th class="text-left">
+                  Pos
+                </th>
+                <th class="text-left">
                   Name
                 </th>
                 <th class="text-right">
-                  Punkte
+                  
                 </th>
               </tr>
             </thead>
@@ -44,23 +41,21 @@
                 v-for="(score, index) in scores"
                 :key="index"
               >               
-                <td>                  
-                  {{ score.displayName }}
+                <td class="text-left">{{ index + 1  }}</td>
+                <td class="text-left">{{ score.displayName }}</td>
+                <td class="text-right">
+                  <v-icon v-if="index + 1 === scores.length" color="purple darken-1">mdi-skull</v-icon>
                 </td>
-                <td class="text-right">{{ score.points }}</td>
               </tr>
             </tbody>
           </template>
         </v-simple-table>
 
       </v-card>
-    </div>
   </v-container>
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   data() {
     return {
@@ -69,8 +64,8 @@ export default {
   },
   methods: {
     async showResults() {
-      const result = await axios.get(process.env.VUE_APP_BASEURL + '/scores/')
-      this.scores = result.data
+      const response = await this.$store.dispatch('getScores')
+      this.scores = response.data
     },
   },
   mounted() {

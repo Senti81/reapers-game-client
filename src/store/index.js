@@ -21,7 +21,6 @@ export default new Vuex.Store({
       hour: null
     },
     admin: false,
-    started: false
   },
   getters: {
     getToken: state => state.token,
@@ -33,7 +32,6 @@ export default new Vuex.Store({
     getUser: state => state.user,
     getMock: state => state.mock,
     isAdmin: state => state.admin,
-    isStarted: state => state. started
   },
   mutations: {
     login: (state, token) => state.token = token,
@@ -46,7 +44,6 @@ export default new Vuex.Store({
     },
     setMock: (state, payload) => state.mock = payload,
     setAdmin: (state, admin) => state.admin = admin,
-    setGameStarted: state => state.started = true
   },
   actions: {
     async verifyLogin ({ commit }, credentials) {
@@ -64,6 +61,7 @@ export default new Vuex.Store({
       }
     },
     async validateToken ({commit}, token) {
+      console.log('validate token')
       try {
         const response = await axios.post(process.env.VUE_APP_BASEURL + '/users/me', {token})
         commit('setUser', response.data)
@@ -103,20 +101,33 @@ export default new Vuex.Store({
         commit('toggleLoading')
         await axios.post(process.env.VUE_APP_BASEURL + `/tasks/${payload.day}`, payload.data, this.getters.getHeader)        
         commit('showSnackbar', 'Antwort abgegeben')
-
       } catch (error) {
         console.error(error)
         commit('showSnackbar', 'Hoppla...Da ist was schief gelaufen')
-
       } finally {
         commit('toggleLoading')
       }
     },
-    async isInProgress({ commit }) {
-      const res = await axios.get(process.env.VUE_APP_BASEURL + '/scores/', this.getters.getHeader)
-      if (res.data.length !== 0) {
-        commit('setGameStarted', true)
-        console.log('Game started')
+    async getScores({ commit }){
+      try {
+        commit('toggleLoading')
+        const response = await axios.get(process.env.VUE_APP_BASEURL + '/scores')
+        return response
+      } catch (error) {
+        console.error(error)
+      } finally {
+        commit('toggleLoading')
+      }
+    },
+    async getScoreForPlayer({ commit }){
+      try {
+        commit('toggleLoading')
+        const response = await axios.get(process.env.VUE_APP_BASEURL + `/scores/player?name=${this.getters.getUser.username}`, this.getters.getHeader)
+        return response
+      } catch (error) {
+        console.error(error)
+      } finally {
+        commit('toggleLoading')
       }
     },
     logout: ({ commit }) => {
