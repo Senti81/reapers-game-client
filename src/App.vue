@@ -20,11 +20,18 @@ export default {
     Main,
     Snackbar,
     Overlay
-  }, 
-  mounted() {
+  },
+  methods: {
+    setTime() {
+      this.$store.dispatch('setTime')
+      setTimeout(this.setTime, 60000)
+    }
+  },
+  mounted() {        
     const token = localStorage.getItem('user-token')
     if(token) 
       this.$store.dispatch('validateToken', token)
+    this.setTime()
   }
 }
 </script>

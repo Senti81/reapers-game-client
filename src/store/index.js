@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import { format } from 'date-fns'
 
 Vue.use(Vuex)
 
@@ -21,6 +22,9 @@ export default new Vuex.Store({
       hour: null
     },
     admin: false,
+    day: 0,
+    hour: 0,
+    minute: 0
   },
   getters: {
     getToken: state => state.token,
@@ -32,6 +36,9 @@ export default new Vuex.Store({
     getUser: state => state.user,
     getMock: state => state.mock,
     isAdmin: state => state.admin,
+    getDay: state => state.day,
+    getHour: state => state.hour,
+    getMinute: state => state.minute
   },
   mutations: {
     login: (state, token) => state.token = token,
@@ -44,6 +51,9 @@ export default new Vuex.Store({
     },
     setMock: (state, payload) => state.mock = payload,
     setAdmin: (state, admin) => state.admin = admin,
+    setDay: (state, day) => state.day = day,
+    setHour: (state, hour) => state.hour = hour,
+    setMinute: (state, minute) => state.minute = minute
   },
   actions: {
     async verifyLogin ({ commit }, credentials) {
@@ -129,6 +139,11 @@ export default new Vuex.Store({
       } finally {
         commit('toggleLoading')
       }
+    },
+    setTime: ({ commit }) => {
+      commit('setDay', parseInt(format(new Date(), 'i')))
+      commit('setHour', parseInt(format(new Date(), 'H')))
+      commit('setMinute', parseInt(format(new Date(), 'mm')))
     },
     logout: ({ commit }) => {
       commit('logout')
