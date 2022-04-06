@@ -43,8 +43,15 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  if(to.name !== 'Login' && !store.getters.isAuthenticated)
+router.beforeEach(async(to, from, next) => {
+  if(to.name === 'Task') {
+    const response = await store.dispatch('getScores')
+    if (response.data.length === 0) {
+      next({ name: 'Dashboard'})
+    } else {
+      next()
+    }
+  } else if(to.name !== 'Login' && !store.getters.isAuthenticated)
     next({ name: 'Login' })
   else {
     next()
