@@ -24,15 +24,9 @@
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-left">
-                Pos
-              </th>
-              <th class="text-left">
-                Name
-              </th>
-              <th class="text-right">
-                
-              </th>
+              <th class="text-left">Pos</th>
+              <th class="text-left">Name</th>
+              <th class="text-right"></th>
             </tr>
           </thead>
           <tbody>

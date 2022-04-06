@@ -1,6 +1,7 @@
 <template>
   <v-snackbar
     v-model="$store.state.snackbar.show"
+    top
     elevation="24"    
     timeout="3000"
     transition="scale-transition"
