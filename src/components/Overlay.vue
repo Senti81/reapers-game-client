@@ -1,9 +1,15 @@
 <template>
   <v-overlay>
-    <v-progress-circular
-    indeterminate
-    size="64"
-    ></v-progress-circular>               
+    <v-layout column align-center>
+      <v-progress-circular
+        color="blue lighten-1"
+        indeterminate
+        size="48"
+      ></v-progress-circular>               
+      <span class="mt-4 overline">
+        Wird geladen...
+      </span>
+    </v-layout>
   </v-overlay>
 </template>
 
