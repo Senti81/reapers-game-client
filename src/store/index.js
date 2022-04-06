@@ -143,7 +143,7 @@ export default new Vuex.Store({
     setTime: ({ commit }) => {
       commit('setDay', parseInt(format(new Date(), 'i')))
       commit('setHour', parseInt(format(new Date(), 'H')))
-      commit('setMinute', parseInt(format(new Date(), 'mm')))
+      commit('setMinute', format(new Date(), 'mm'))
     },
     logout: ({ commit }) => {
       commit('logout')

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer
+    <!-- <v-navigation-drawer
       v-model="drawer"
       app
     >
@@ -55,17 +55,42 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
+
+    <v-bottom-navigation
+      v-model="value"
+      fixed
+      color="primary"
+      grow
+      dark
+      >
+      <v-btn v-if="this.$store.getters.isAdmin" to="/admin">
+        <span>Admin</span>
+        <v-icon>mdi-cog-outline</v-icon>
+      </v-btn>
+      <v-btn to="/">
+        <span>Dashboard</span>
+        <v-icon>mdi-view-dashboard</v-icon>
+      </v-btn>
+      <v-btn to="/task" :disabled="disabled">
+        <span>Tagesaufgabe</span>
+        <v-icon>mdi-format-list-checks</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
 
     <v-app-bar
       dense       
       app
-      color="primary"
       dark
+      color="primary"
       src="question-mark.jpg"
       >
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>    
+      <!-- <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>     -->
       <Clock/>
+      <v-spacer></v-spacer>
+      <v-btn icon @click="logout">
+        <v-icon>mdi-logout</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -83,14 +108,14 @@ export default {
   },
   data() {
     return {
-      drawer: null,
-      items: [
-        { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/' },
-        { title: 'Tagesaufgabe', icon: 'mdi-format-list-checks', to: '/task' }
-      ],
+      value: 'Dashboard',
     }
   },
   computed: {
+    disabled() {
+      // return parseInt(this.$store.getters.getMinute) % 2 === 0
+      return this.$store.getters.getHour < this.$store.state.START
+    },
     getInitials() {
       if (this.$store.getters.getUser.username) {
         const name = this.$store.getters.getUser.username
