@@ -22,21 +22,24 @@ export default {
   },
   methods: {
     async checkTask() {
+      console.log('checkTask @', new Date().toLocaleTimeString())
       const response = await this.$store.dispatch('getScores')
       if (response.data.length === 0) {
         console.log('Not started')
         return
       }
+      const currentTime = Number.parseInt(format(new Date(), 'H'))
       const startTime = this.$store.state.START
       const endTime = this.$store.state.END
       const mockedTime = this.$store.getters.getMock.hour
 
-      if (this.$store.getters.getMock) {
-        console.log('using mocked time')
+      if (mockedTime) {
         this.show = mockedTime >= startTime && mockedTime < endTime
       } else {
-        this.show = format(new Date(), 'H') >= startTime && format(new Date(), 'H') < endTime    
-      }        
+        this.show = currentTime >= startTime && currentTime < endTime    
+      }      
+      if (currentTime < startTime)
+        setTimeout(this.checkTask, 60000)
     },
   },
   mounted() {
